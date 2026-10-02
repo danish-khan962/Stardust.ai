@@ -5,6 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Brand Colors */
+  --color-warm-earth-extralight: #cd9777;
+  --color-warm-earth-light: #c38e70;
+  --color-warm-earth-normal: #b07d62;
+  --color-warm-earth-dark: #9d6b53;
+  --color-warm-earth-extradark: #8a5a44;
+  --color-warm-earth-superdark: #774936;
+
+  
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-inter: var(--font-inter);
