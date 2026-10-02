@@ -6,12 +6,12 @@ import { Input } from '@/components/ui/input'
 import MaxWidthContainer from '@/styles/max-width-container'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import toast from 'react-hot-toast'
-import { useRouter } from "next/navigation"
 
 import { authClient } from '@/lib/auth-client'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -29,7 +29,6 @@ const formSchema = z.object({
 type SignInValues = z.infer<typeof formSchema>
 
 const SignInModule = () => {
-
     const router = useRouter();
     const [error, setError] = useState<string | null>(null)
     const [isPending, setIsPending] = useState(false)
@@ -55,11 +54,13 @@ const SignInModule = () => {
         authClient.signIn.email({
             email: values.email,
             password: values.password,
+
+            callbackURL: "/"
         }, {
             onSuccess: () => {
                 setIsPending(false)
                 toast.success("Logged in successfully")
-                router.push('/')
+                router.push("/")
             },
             onError: ({ error }) => {
                 toast.error("Failed to login")
@@ -68,17 +69,51 @@ const SignInModule = () => {
         })
     }
 
+    // Socials Authentication
+    const onSocialAuth = async (providers: "google" | "github") => {
+        setError(null)
+        setIsPending(true)
+
+        authClient.signIn.social({
+            provider: providers,
+            callbackURL: "/"
+        }, {
+            onSuccess: () => {
+                setIsPending(false)
+                toast.success("Logging you in")
+            },
+            onError: ({ error }) => {
+                toast.error("Failed to Login")
+                setError(error.message)
+                setIsPending(false)
+            },
+        })
+    }
+
+
     return (
         <MaxWidthContainer className='flex justify-center items-center'>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className='max-w-2xl w-full flex flex-col gap-3'>
-                <h1 className='font-robotoMono text-2xl md:text-3xl xl:text-4xl font-bold tracking-tighter'> Welcome back </h1>
-                <p className='text-xs md:text-sm leading-snug font-medium text-gray-500'>
-                    Today is a new day. It&apos;s your day. You shape it.
-                    <br />
-                    Sign in to start managing your meets.
-                </p>
+                <div className='flex flex-row justify-between items-center flex-wrap-reverse gap-y-2 gap-x-10'>
+                    <div className='flex flex-col gap-1'>
+                        <h1 className='font-robotoMono text-2xl md:text-3xl xl:text-4xl font-bold tracking-tighter'> Welcome Back </h1>
+                        <p className='text-xs md:text-sm leading-snug font-medium text-gray-500'>
+                            Today is a new day. It&apos;s your day. You shape it.
+                            <br />
+                            Sign in to start managing your meets.
+                        </p>
+                    </div>
+                    <Image
+                        alt='logo'
+                        src={"/logo.svg"}
+                        height={1000}
+                        width={1000}
+                        loading='eager'
+                        className="h-fit w-fit"
+                    />
+                </div>
 
                 <div className='mt-5 flex flex-col gap-3 md:gap-5'>
                     {/* Email Field */}
@@ -137,7 +172,7 @@ const SignInModule = () => {
                     <Button
                         type='submit'
                         disabled={isPending}
-                        className="my-4 py-5 sm:py-6 md:py-6.5 cursor-pointer text-xs md:text-sm">
+                        className="my-4 py-5 sm:py-6 md:py-6.5 cursor-pointer text-xs md:text-sm font-semibold bg-linear-to-tr from-warm-earth-dark via-warm-earth-extradark to-warm-earth-superdark hover:opacity-90 transition-all ease-in-out duration-200">
                         {isPending ? "Logging in ..." : "Sign In"}
                     </Button>
                 </div>
@@ -149,13 +184,14 @@ const SignInModule = () => {
                 </div>
 
                 {/* Socials Auth */}
-                <div className='mt-4 flex flex-col md:flex-row gap-4 justify-center items-center'>
+                <div className='max-w-2xl w-full mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 justify-center items-center'>
                     {/* Google Auth */}
                     <Button
                         type='button'
                         disabled={isPending}
                         variant={'outline'}
-                        className='w-full px-4 py-5 sm:py-6 md:py-7 rounded-lg bg-neutral-200 flex flex-row justify-center items-center gap-6 cursor-pointer hover:bg-neutral-300 transition-all ease-in-out duration-200'>
+                        onClick={() => onSocialAuth("google")}
+                        className='px-4 py-5 sm:py-6 md:py-7 rounded-lg bg-neutral-200 flex flex-row justify-center items-center gap-6 cursor-pointer hover:bg-neutral-300 transition-all ease-in-out duration-200'>
                         <Image
                             alt='google auth'
                             src={"/images/icons8-google-48.png"}
@@ -170,7 +206,8 @@ const SignInModule = () => {
                         type='button'
                         variant={'outline'}
                         disabled={isPending}
-                        className='w-full px-4 py-5 sm:py-6 md:py-7 rounded-lg bg-neutral-200 flex flex-row justify-center items-center gap-6 cursor-pointer hover:bg-neutral-300 transition-all ease-in-out duration-200'>
+                        onClick={() => onSocialAuth("github")}
+                        className='px-4 py-5 sm:py-6 md:py-7 rounded-lg bg-neutral-200 flex flex-row justify-center items-center gap-6 cursor-pointer hover:bg-neutral-300 transition-all ease-in-out duration-200'>
                         <Image
                             alt='github auth'
                             src={"/images/icons8-github-48.png"}

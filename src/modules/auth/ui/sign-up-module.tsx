@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import MaxWidthContainer from '@/styles/max-width-container'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { email, z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,7 +14,6 @@ import { useForm } from "react-hook-form"
 import toast from 'react-hot-toast'
 
 import { authClient } from '@/lib/auth-client'
-import { useRouter } from 'next/navigation'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertOctagonIcon } from 'lucide-react'
 
@@ -43,7 +43,6 @@ const formSchema = z.object({
 type SignUpValues = z.infer<typeof formSchema>
 
 const SignUpModule = () => {
-
   const router = useRouter();
   const [error, setError] = useState<string | null>(null)
   const [isPending, setIsPending] = useState(false)
@@ -72,12 +71,34 @@ const SignUpModule = () => {
       name: values.name,
       email: values.email,
       password: values.password,
-      // confirmPassword: values.confirmPassword,
+
+      callbackURL: "/"
     }, {
       onSuccess: () => {
         setIsPending(false)
         toast.success("Account Created")
-        router.push('/')
+        router.push("/")
+      },
+      onError: ({ error }) => {
+        toast.error("Failed to create account")
+        setError(error.message)
+        setIsPending(false)
+      },
+    })
+  }
+
+  // Socials Authentication
+  const onSocialAuth = async (providers: "google" | "github") => {
+    setError(null)
+    setIsPending(true)
+
+    authClient.signIn.social({
+      provider: providers,
+      callbackURL: "/"
+    }, {
+      onSuccess: () => {
+        setIsPending(false)
+        toast.success("Account Created")
       },
       onError: ({ error }) => {
         toast.error("Failed to create account")
@@ -94,12 +115,24 @@ const SignUpModule = () => {
         noValidate // Disabling browser validation
         className='max-w-2xl w-full flex flex-col gap-3'
       >
-        <h1 className='font-robotoMono text-2xl md:text-3xl xl:text-4xl font-bold tracking-tighter'> Register Now </h1>
-        <p className='text-xs md:text-sm leading-snug font-medium text-gray-500'>
-          Today is a new day. It&apos;s your day. You shape it.
-          <br />
-          Create your account to start managing your meets.
-        </p>
+        <div className='flex flex-row justify-between items-center flex-wrap-reverse gap-y-2 gap-x-10'>
+          <div className='flex flex-col gap-1'>
+            <h1 className='font-robotoMono text-2xl md:text-3xl xl:text-4xl font-bold tracking-tighter'> Let&apos;s get started </h1>
+            <p className='text-xs md:text-sm leading-snug font-medium text-gray-500'>
+              Today is a new day. It&apos;s your day. You shape it.
+              <br />
+              Create your account to start managing your meets.
+            </p>
+          </div>
+          <Image
+            alt='logo'
+            src={"/logo.svg"}
+            height={1000}
+            width= {1000}
+            loading='eager'
+            className="h-fit w-fit"
+          />
+        </div>
 
         <div className='mt-5 flex flex-col gap-3 md:gap-5'>
           {/* Name field */}
@@ -195,7 +228,7 @@ const SignUpModule = () => {
           <Button
             type='submit'
             disabled={isPending}
-            className="my-4 py-5 sm:py-6 md:py-6.5 cursor-pointer text-xs md:text-sm">
+            className="my-4 py-5 sm:py-6 md:py-6.5 cursor-pointer text-xs md:text-sm font-semibold bg-linear-to-tr from-warm-earth-dark via-warm-earth-extradark to-warm-earth-superdark hover:opacity-90 transition-all ease-in-out duration-200">
             {isPending ? "Creating account..." : "Sign Up"}
           </Button>
         </div>
@@ -207,13 +240,14 @@ const SignUpModule = () => {
         </div>
 
         {/* Socials Auth */}
-        <div className='mt-4 flex flex-col md:flex-row gap-4 justify-center items-center'>
+        <div className='mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 justify-center items-center'>
           {/* Google Auth */}
           <Button
             type='button'
             disabled={isPending}
             variant={'outline'}
-            className='w-full px-4 py-5 sm:py-6 md:py-7 rounded-lg bg-neutral-200 flex flex-row justify-center items-center gap-6 cursor-pointer hover:bg-neutral-300 transition-all ease-in-out duration-200'>
+            onClick={() => onSocialAuth("google")}
+            className='px-4 py-5 sm:py-6 md:py-7 rounded-lg bg-neutral-200 flex flex-row justify-center items-center gap-6 cursor-pointer hover:bg-neutral-300 transition-all ease-in-out duration-200'>
             <Image
               alt='google auth'
               src={"/images/icons8-google-48.png"}
@@ -228,7 +262,8 @@ const SignUpModule = () => {
             type='button'
             variant={'outline'}
             disabled={isPending}
-            className='w-full px-4 py-5 sm:py-6 md:py-7 rounded-lg bg-neutral-200 flex flex-row justify-center items-center gap-6 cursor-pointer hover:bg-neutral-300 transition-all ease-in-out duration-200'>
+            onClick={() => onSocialAuth("github")}
+            className='px-4 py-5 sm:py-6 md:py-7 rounded-lg bg-neutral-200 flex flex-row justify-center items-center gap-6 cursor-pointer hover:bg-neutral-300 transition-all ease-in-out duration-200'>
             <Image
               alt='github auth'
               src={"/images/icons8-github-48.png"}
