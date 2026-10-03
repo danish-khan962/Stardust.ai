@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Roboto_Mono, Inter } from "next/font/google";
+import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast"
 
-const robotoMono = Roboto_Mono({
-  variable: "--font-robotoMono",
+const manropeFont = Manrope({
+  variable: "--font-manrope-font",
   subsets: ["latin"],
 });
 
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${robotoMono.variable} ${inter.variable} h-full antialiased`}
+      className={`${manropeFont.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Toaster />

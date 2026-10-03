@@ -116,8 +116,8 @@ const SignUpModule = () => {
         className='max-w-2xl w-full flex flex-col gap-3'
       >
         <div className='flex flex-row justify-between items-center flex-wrap-reverse gap-y-2 gap-x-10'>
-          <div className='flex flex-col gap-1'>
-            <h1 className='font-robotoMono text-2xl md:text-3xl xl:text-4xl font-bold tracking-tighter'> Let&apos;s get started </h1>
+          <div className='flex flex-col gap-2 md:gap-3'>
+            <h1 className='font-manrope-font text-2xl md:text-3xl xl:text-4xl font-extrabold tracking-tight'> Let&apos;s get started </h1>
             <p className='text-xs md:text-sm leading-snug font-medium text-gray-500'>
               Today is a new day. It&apos;s your day. You shape it.
               <br />
@@ -128,7 +128,7 @@ const SignUpModule = () => {
             alt='logo'
             src={"/logo.svg"}
             height={1000}
-            width= {1000}
+            width={1000}
             loading='eager'
             className="h-fit w-fit"
           />
@@ -210,10 +210,6 @@ const SignUpModule = () => {
             )}
           </div>
 
-          <div className='text-xs text-right hover:underline cursor-pointer text-blue-700 font-medium'>
-            Forgot Password?
-          </div>
-
           {
             !!error && (
               <Alert className='p-4 bg-radial from-red-700 to-red-600 text-white shadow-xl shadow-rose-100'>
@@ -285,8 +281,30 @@ const SignUpModule = () => {
           </Link>
         </div>
 
-        <footer className='mt-5 text-xs md:text-sm text-gray-500 text-center'>
-          2026 &copy; All Rights Reserved. Danish Khan
+        <footer className='flex flex-col gap-2 mt-6 md:mt-8 text-xs md:text-sm text-gray-500 text-center'>
+          <p>
+            2026 &copy; All Rights Reserved. {" "}
+            <Link
+              href={"http://github.com/danish-khan962"}
+              target='_blank'
+              className='font-medium hover:underline transition-all ease-in-out duration-200'>
+              Danish Khan
+            </Link>
+          </p>
+          <p>
+            By clicking continue, you agree to our {" "}
+            <Link
+              className='underline font-medium'
+              href={"/terms-of-service"}>
+              Terms of Service
+            </Link>
+            {" "} and {" "}
+            <Link
+              className='underline font-medium'
+              href={"/privacy-policy"}>
+              Privacy Policy
+            </Link>
+          </p>
         </footer>
 
       </form>
