@@ -3,6 +3,9 @@ import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast"
 
+//  TRPC
+import { TRPCReactProvider } from "@/trpc/client"
+
 const manropeFont = Manrope({
   variable: "--font-manrope-font",
   subsets: ["latin"],
@@ -20,14 +23,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${manropeFont.variable} ${inter.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <Toaster />
-        {children}
-      </body>
-    </html>
+    <TRPCReactProvider>
+      <html
+        lang="en"
+        className={`${manropeFont.variable} ${inter.variable} h-full antialiased`}
+      >
+        <body className="min-h-full flex flex-col">
+          <Toaster />
+          {children}
+        </body>
+      </html>
+    </TRPCReactProvider>
   );
 }
