@@ -11,11 +11,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+} from "@/components/ui/drawer"
+
 import {
   InputGroup,
   InputGroupAddon,
 } from "@/components/ui/input-group"
 import { SearchIcon, CheckIcon } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 function Command({
   className,
@@ -53,6 +63,68 @@ function CommandDialog({
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
+      <DialogContent
+        className={cn(
+          "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
+          className
+        )}
+        showCloseButton={showCloseButton}
+      >
+        {children}
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function ResponsiveCommandDialog({
+  title = "Command Palette",
+  description = "Search for a command to run...",
+  children,
+  className,
+  showCloseButton = false,
+  onOpenChange,
+  ...props
+}: Omit<
+  React.ComponentProps<typeof Dialog>,
+  "children" | "onOpenChange" | "handle"
+> & {
+  title?: string
+  description?: string
+  className?: string
+  showCloseButton?: boolean
+  children: React.ReactNode
+  onOpenChange?: (open: boolean) => void
+}) {
+  const isMobile = useIsMobile()
+
+  if (isMobile) {
+    return (
+      <Drawer
+        {...props}
+        onOpenChange={(open) => onOpenChange?.(open)}
+      >
+        <DrawerContent className="overflow-hidden p-0">
+          <DrawerHeader className="sr-only">
+            <DrawerTitle>{title}</DrawerTitle>
+            <DrawerDescription>{description}</DrawerDescription>
+          </DrawerHeader>
+
+          {children}
+        </DrawerContent>
+      </Drawer>
+    )
+  }
+
+  return (
+    <Dialog
+      {...props}
+      onOpenChange={(open) => onOpenChange?.(open)}
+    >
+      <DialogHeader className="sr-only">
+        <DialogTitle>{title}</DialogTitle>
+        <DialogDescription>{description}</DialogDescription>
+      </DialogHeader>
+
       <DialogContent
         className={cn(
           "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
@@ -193,4 +265,5 @@ export {
   CommandItem,
   CommandShortcut,
   CommandSeparator,
+  ResponsiveCommandDialog,
 }
