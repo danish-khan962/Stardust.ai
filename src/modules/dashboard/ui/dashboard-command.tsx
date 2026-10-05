@@ -5,7 +5,8 @@ import {
     CommandDialog,
     CommandInput,
     CommandList,
-    CommandItem
+    CommandItem,
+    ResponsiveCommandDialog
 } from '@/components/ui/command'
 import React, { Dispatch, SetStateAction } from 'react'
 
@@ -18,7 +19,7 @@ const DashboardCommand = ({
     open, setOpen
 }: CommandDialogProps) => {
     return (
-        <CommandDialog open={open} onOpenChange={setOpen}>
+        <ResponsiveCommandDialog open={open} onOpenChange={setOpen}>
             <Command>
                 <CommandInput placeholder='Find a meeting or an agent....' />
 
@@ -28,7 +29,7 @@ const DashboardCommand = ({
                     </CommandItem>
                 </CommandList>
             </Command>
-        </CommandDialog>
+        </ResponsiveCommandDialog>
     )
 }
 
