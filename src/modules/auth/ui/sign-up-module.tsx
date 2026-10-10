@@ -224,7 +224,7 @@ const SignUpModule = () => {
           <Button
             type='submit'
             disabled={isPending}
-            className="my-4 py-5 sm:py-6 md:py-6.5 cursor-pointer text-xs md:text-sm font-semibold bg-linear-to-tr from-warm-earth-dark via-warm-earth-extradark to-warm-earth-superdark hover:opacity-90 transition-all ease-in-out duration-200">
+            className="my-4 py-5 sm:py-6 md:py-6.5 cursor-pointer text-xs md:text-sm font-semibold text-white hover:opacity-90 transition-all ease-in-out duration-200">
             {isPending ? "Creating account..." : "Sign Up"}
           </Button>
         </div>
