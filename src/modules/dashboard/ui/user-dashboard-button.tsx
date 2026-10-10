@@ -72,7 +72,7 @@ const UserDashboardButton = () => {
                                 (
                                     <GeneratedAvatar
                                         seed={data.user.name}
-                                        variant='botttsNeutral'
+                                        variant='initials'
                                         className='size-9 outline-none'
                                     />
                                 )
@@ -140,7 +140,7 @@ const UserDashboardButton = () => {
                             (
                                 <GeneratedAvatar
                                     seed={data.user.name}
-                                    variant='botttsNeutral'
+                                    variant='initials'
                                     className='size-9 outline-none'
                                 />
                             )
