@@ -6,7 +6,7 @@ import { db } from '@/database'
 import { agents } from '@/database/schema'
 import { TRPCError } from '@trpc/server'
 import { agentsInsertionSchema } from '../schemas'
-import { eq } from "drizzle-orm"
+import { eq, getTableColumns, sql } from "drizzle-orm"
 
 export const agentsRouter = createTRPCRouter({
     getMany: protectedProcedure.query(async () => {
