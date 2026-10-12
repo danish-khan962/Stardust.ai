@@ -38,7 +38,7 @@ export const columns = columnHelper.columns([
     )
   }),
   // FIX TO DO: aacessor needs to change to `meetingsCount` and implement db schema for `meetingsCount`
-  columnHelper.accessor("instructions", {
+  columnHelper.accessor("meetingCount", {
     header: "Meetings",
     cell: ({row}) => (
       <Badge
@@ -46,8 +46,7 @@ export const columns = columnHelper.columns([
       className="flex items-center gap-2 h-7 p-2 md:h-8 md:p-4"
       >
         <VideoIcon className="text-warm-earth-superdark" />
-        {/* {row.original.meetingCount} {row.original.meetingCount === 1 ? "meeting" : "meetings"} */}
-        5 meetings
+        {row.original.meetingCount} {row.original.meetingCount === 1 ? "meeting" : "meetings"}
       </Badge>
     )
   })

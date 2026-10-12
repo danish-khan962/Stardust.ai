@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast"
+import { NuqsAdapter } from "nuqs/adapters/next"
 
 //  TRPC
 import { TRPCReactProvider } from "@/trpc/client"
@@ -23,7 +24,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <TRPCReactProvider>
+    <NuqsAdapter>
+      <TRPCReactProvider>
       <html
         lang="en"
         className={`${manropeFont.variable} ${inter.variable} h-full antialiased`}
@@ -34,5 +36,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </body>
       </html>
     </TRPCReactProvider>
+    </NuqsAdapter>
   );
 }
