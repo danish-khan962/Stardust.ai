@@ -55,8 +55,8 @@ const ResponsiveDialog = ({
         return(
             <Dialog open={open} onOpenChange={onOpenChange}>
                 <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>{title}</DialogTitle>
+                    <DialogHeader className='flex flex-col gap-4'>
+                        <DialogTitle className="text-base md:text-lg font-semibold">{title}</DialogTitle>
                         <DialogDescription>{description}</DialogDescription>
                     </DialogHeader>
                     {children}
