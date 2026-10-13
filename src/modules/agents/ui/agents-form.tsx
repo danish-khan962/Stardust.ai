@@ -34,22 +34,43 @@ const AgentsForm = ({
 
     const createAgent = useMutation(
         trpc.agents.create.mutationOptions({
-            onSuccess: async () => { 
+            onSuccess: async () => {
                 await queryClient.invalidateQueries(
                     trpc.agents.getMany.queryOptions({})
                 );
-                
-                if(initialValues?.id){
-                    await queryClient.invalidateQueries(
-                        trpc.agents.getOne.queryOptions({ id: initialValues.id })
-                    )
-                }
+
+                // if(initialValues?.id){
+                //     await queryClient.invalidateQueries(
+                //         trpc.agents.getOne.queryOptions({ id: initialValues.id })
+                //     )
+                // }
                 onSuccess?.();
                 toast.success(`New agent created.`)
             },
             onError: (error) => {
                 toast.error(error.message)
-             },
+            },
+        })
+    )
+
+    const updateAgent = useMutation(
+        trpc.agents.update.mutationOptions({
+            onSuccess: async () => {
+                await queryClient.invalidateQueries(
+                    trpc.agents.getMany.queryOptions({})
+                );
+
+                if (initialValues?.id) {
+                    await queryClient.invalidateQueries(
+                        trpc.agents.getOne.queryOptions({ id: initialValues.id })
+                    )
+                }
+                onSuccess?.();
+                toast.success(`Agent's details updated.`)
+            },
+            onError: (error) => {
+                toast.error(error.message)
+            },
         })
     )
 
@@ -67,11 +88,11 @@ const AgentsForm = ({
     });
 
     const isEdit = !!initialValues?.id;
-    const isPending = createAgent.isPending;
+    const isPending = createAgent.isPending || updateAgent.isPending;
 
     const onSubmit = (values: z.infer<typeof agentsInsertionSchema>) => {
         if (isEdit) {
-            console.log("UpdateAgent")
+            updateAgent.mutate({...values, id: initialValues.id})
         } else {
             createAgent.mutate(values)
         }

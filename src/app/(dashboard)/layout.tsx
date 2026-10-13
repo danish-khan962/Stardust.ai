@@ -14,7 +14,7 @@ const layout = ({
     return (
         <SidebarProvider >
             <AppSidebar />
-            <main className='flex flex-col h-screen w-screen bg-muted
+            <main className='flex flex-col w-screen bg-muted
             '>
                 <DashboardNavbar />
                 {children}
