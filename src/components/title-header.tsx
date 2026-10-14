@@ -18,7 +18,7 @@ const TitleHeader = ({
 
   return (
     <div className='px-4 flex flex-row justify-between items-center'>
-        <h2 className='text-xl md:text-2xl font-semibold font-manrope-font'>{title}</h2>
+        <h2 className='text-2xl font-semibold font-manrope-font'>{title}</h2>
 
         {enableButton &&(
             <Button

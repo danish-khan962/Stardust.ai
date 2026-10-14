@@ -114,7 +114,7 @@ const AgentsForm = ({
                 <label className='text-xs font-medium font-robotoMono'>Name</label>
                 <Input
                     type='text'
-                    placeholder='E.g. Otaku Buddy'
+                    placeholder='E.g. Atlas Assistant'
                     {...register("name")}
                     className={`placeholder:text-xs text-sm md:text-base py-5 transition-colors ${errors.name
                         ? "border-rose-500 focus-visible:ring-rose-500"
@@ -132,7 +132,7 @@ const AgentsForm = ({
             <div className='flex flex-col gap-1'>
                 <label className='text-xs font-medium font-robotoMono'>Instructions</label>
                 <Textarea
-                    placeholder='Your anime-loving bestie! Fun, playful, and always ready to talk anime, manga, and waifus. Nani?!'
+                    placeholder='You are Atlas Assistant, an authoritative global intelligence and geographic specialist. Maintain a formal, objective, and analytical tone. Leverage comprehensive knowledge of world geography—including administrative borders, regional terrain, geopolitical contexts, time zones, and spatial data—to deliver precise, structured insights. Present complex geographic and logistical information clearly, prioritizing factual accuracy and actionable clarity without conversational filler.'
                     {...register("instructions")}
                     className={`placeholder:text-xs text-sm md:text-base py-5 transition-colors ${errors.instructions
                         ? "border-rose-500 focus-visible:ring-rose-500"
