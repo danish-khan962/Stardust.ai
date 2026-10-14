@@ -83,6 +83,7 @@ function ResponsiveCommandDialog({
   className,
   showCloseButton = false,
   onOpenChange,
+  shouldFilter = true,
   ...props
 }: Omit<
   React.ComponentProps<typeof Dialog>,
@@ -94,6 +95,7 @@ function ResponsiveCommandDialog({
   showCloseButton?: boolean
   children: React.ReactNode
   onOpenChange?: (open: boolean) => void
+  shouldFilter?: boolean
 }) {
   const isMobile = useIsMobile()
 
@@ -102,6 +104,7 @@ function ResponsiveCommandDialog({
       <Drawer
         {...props}
         onOpenChange={(open) => onOpenChange?.(open)}
+        
       >
         <DrawerContent className="overflow-hidden p-0">
           <DrawerHeader className="sr-only">
@@ -109,7 +112,9 @@ function ResponsiveCommandDialog({
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
 
-          {children}
+          <Command shouldFilter={shouldFilter}>
+            {children}
+          </Command>
         </DrawerContent>
       </Drawer>
     )
@@ -132,7 +137,9 @@ function ResponsiveCommandDialog({
         )}
         showCloseButton={showCloseButton}
       >
-        {children}
+        <Command shouldFilter={shouldFilter}>
+          {children}
+        </Command>
       </DialogContent>
     </Dialog>
   )
