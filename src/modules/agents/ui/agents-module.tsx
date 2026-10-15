@@ -4,13 +4,12 @@ import React from 'react'
 
 import { useTRPC } from '@/trpc/client'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { DataTable } from './data-table'
+import { DataTable } from '@/components/data-table'
 import { columns } from './columns'
 import EmptyState from '@/components/empty-state'
 import { useAgentsFilters } from '../hooks/use-agents-filters'
 import DataPagination from './data-pagination'
 import { useRouter } from 'next/navigation'
-import { agents } from '@/database/schema'
 
 const AgentsModule = () => {
     const router = useRouter();
@@ -36,7 +35,7 @@ const AgentsModule = () => {
             {
                 data.item.length === 0 && (
                     <EmptyState
-                        title='Create your first agent'
+                        title='Create Your First Agent'
                         description='Create an agent to join your meetings. Each agent will follow your instructions can can interact with participants during call.'
                     />
                 )

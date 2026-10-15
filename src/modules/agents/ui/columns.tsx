@@ -2,13 +2,13 @@
 
 import { createColumnHelper } from "@tanstack/react-table"
 
-import { type DataTableFeatures } from "./data-table-features"
-import { AgentsGetOne } from "../types"
+import { type DataTableFeatures } from "../../../components/data-table-features"
+import { AgentsGetMany } from "../types"
 import GeneratedAvatar from "@/components/generated-avatar"
 import { CornerDownRightIcon, VideoIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
-const columnHelper = createColumnHelper<DataTableFeatures, AgentsGetOne>()
+const columnHelper = createColumnHelper<DataTableFeatures, AgentsGetMany[number]>()
 
 export const columns = columnHelper.columns([
   columnHelper.accessor("name", {
@@ -37,7 +37,7 @@ export const columns = columnHelper.columns([
       </div>
     )
   }),
-  // FIX TO DO: aacessor needs to change to `meetingsCount` and implement db schema for `meetingsCount`
+ 
   columnHelper.accessor("meetingCount", {
     header: "Meetings",
     cell: ({row}) => (
