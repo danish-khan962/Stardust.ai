@@ -232,6 +232,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.8)
+      humanize-duration:
+        specifier: ^3.35.0
+        version: 3.35.0
       input-otp:
         specifier: ^1.5.0
         version: 1.5.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -3315,6 +3318,9 @@ packages:
   human-signals@8.0.1:
     resolution: {integrity: sha512-eKCa6bwnJhvxj14kZk5NCPc6Hb6BdsU9DZcOnmQKSnO1VKrfV0zCvtttPZUsBvjmNDn8rpcJfpwSYnHBjc95MQ==}
     engines: {node: '>=18.18.0'}
+
+  humanize-duration@3.35.0:
+    resolution: {integrity: sha512-+KYh+R85n1yadHHwy/QXF0JgPq5NPPBNrvigA5aAKrlKFd0bJpMx7wE3Xd6rM0kEaBQMCFrdMihkaDSgWERNvQ==}
 
   iconv-lite@0.7.3:
     resolution: {integrity: sha512-IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ==}
@@ -7404,6 +7410,8 @@ snapshots:
   human-signals@2.1.0: {}
 
   human-signals@8.0.1: {}
+
+  humanize-duration@3.35.0: {}
 
   iconv-lite@0.7.3:
     dependencies:
