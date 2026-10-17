@@ -8,7 +8,7 @@ import { DataTable } from '@/components/data-table'
 import { columns } from './columns'
 import EmptyState from '@/components/empty-state'
 import { useAgentsFilters } from '../hooks/use-agents-filters'
-import DataPagination from './data-pagination'
+import DataPagination from '../../../components/data-pagination'
 import { useRouter } from 'next/navigation'
 
 const AgentsModule = () => {
