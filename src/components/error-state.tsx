@@ -13,14 +13,14 @@ const ErrorState = ({
 }: ErrorStateProps) => {
     return (
         <div className='py-4 px-8 w-full flex flex-1 justify-center items-center'>
-            <div className='flex flex-col justify-center items-center gap-8 py-10 px-20 rounded-xl bg-background backdrop-blur-xl shadow-lg bg-radial from-red-700 to-red-900'>
+            <div className='max-w-sm w-full flex flex-col justify-center items-center gap-8 p-10 rounded-xl bg-background backdrop-blur-xl shadow-lg bg-radial from-red-700 to-red-900'>
                 <ClockAlert
                     height={25}
                     width={25}
                     stroke='white'
                 />
 
-                <div className='flex flex-col gap-1 justify-center text-center'>
+                <div className='flex flex-col gap-3 justify-center text-center'>
                     <h4 className='text-lg font-medium text-white'>
                         {title}
                     </h4>

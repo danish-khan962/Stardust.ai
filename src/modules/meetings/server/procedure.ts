@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { string, z } from "zod"
 
 import React from 'react'
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
@@ -11,6 +11,27 @@ import { meetingsInsertionSchema, meetingsUpdateSchema } from "../schemas"
 import { MeetingStatus } from "../types"
 
 export const meetingsRouter = createTRPCRouter({
+    remove: protectedProcedure
+        .input(z.object({id: string()}))
+        .mutation(async ({ ctx, input }) => {
+            const [removedAgent] = await db
+                .delete(meetings)
+                .where(
+                    and(
+                        eq(meetings.id, input.id),
+                        eq(meetings.userId, ctx.auth.user.id)
+                    )
+                )
+                .returning()
+
+            if (!removedAgent) {
+                throw new TRPCError({ code: "NOT_FOUND", message: "Meeting Not Found" })
+            }
+
+            return removedAgent;
+        }),
+
+
     update: protectedProcedure
         .input(meetingsUpdateSchema)
         .mutation(async ({ ctx, input }) => {
@@ -54,7 +75,7 @@ export const meetingsRouter = createTRPCRouter({
             agent: agents,
             duration: sql<number>`EXTRACT(EPOCH FROM (ended_at - started_at))`.as("duration")
         }).from(meetings)
-        .innerJoin(agents, eq(meetings.agentsId, agents.id))
+            .innerJoin(agents, eq(meetings.agentsId, agents.id))
             .where(
                 and(
                     eq(meetings.userId, ctx.auth.user.id),
@@ -92,9 +113,12 @@ export const meetingsRouter = createTRPCRouter({
     getOne: protectedProcedure.input(z.object({ id: z.string() })).query(async ({ input, ctx }) => {
         const [existingMeeting] = await db.select({
             meetingCount: sql<number>`7`,
-            ...getTableColumns(meetings)
+            ...getTableColumns(meetings),
+            agent: agents,
+            duration: sql<number>`EXTRACT(EPOCH FROM (ended_at - started_at))`.as("duration")
         })
             .from(meetings)
+            .innerJoin(agents, eq(meetings.agentsId, agents.id))
             .where(
                 and(
                     eq(meetings.id, input.id),
