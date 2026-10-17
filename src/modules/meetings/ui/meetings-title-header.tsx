@@ -3,24 +3,28 @@
 import TitleHeader from '@/components/title-header'
 import { PlusIcon, XIcon } from 'lucide-react'
 import React, { useState } from 'react'
-// import { useAgentsFilters } from '../hooks/use-agents-filters'
-// import AgentSearchFilter from './agents-search-filter'
+import { useMeetingsFilters } from '../hooks/use-meetings-filters'
+import MeetingsSearchFilter from './meeting-search-filter'
 import { DEFAULT_PAGE } from '@/constants'
 import { Button } from '@/components/ui/button'
 import { GoXCircle } from 'react-icons/go'
 import NewMeetingsDialog from './new-meetings-dialog'
+import { StatusFilters } from './status-filter'
+import { AgentIdFilters } from './agent-id-filter'
 
 const MeetingsTitleHeader = () => {
-    // const [filters, setFilters] = useAgentsFilters();
+    const [filters, setFilters] = useMeetingsFilters();
     const [openCommandDialog, setOpeCommandDialog] = useState(false);
 
-    // const ifFilterModified = !!filters.search;
-    // const onClearFilter = () => {
-    //     setFilters({
-    //         search: "",
-    //         page: DEFAULT_PAGE,
-    //     })
-    // }
+    const ifFilterModified = !!filters.search || !!filters.agentId || filters.status;
+    const onClearFilter = () => {
+        setFilters({
+            search: "",
+            status: null,
+            agentId: "",
+            page: DEFAULT_PAGE,
+        })
+    }
 
     return (
         <>
@@ -38,20 +42,22 @@ const MeetingsTitleHeader = () => {
                     onClickFunction={() => setOpeCommandDialog(true)}
                 />
 
-                {/* <div className='flex items-center px-4 gap-2'>
-                    <AgentSearchFilter />
+                <div className='flex items-center px-4 gap-2'>
+                    <MeetingsSearchFilter />
+                    <StatusFilters />
+                    <AgentIdFilters />
                     {ifFilterModified && (
                         <Button
-                        size={"sm"}
-                        variant={"outline"}
-                        className="h-9 cursor-pointer"
-                        onClick={onClearFilter}
+                            size={"sm"}
+                            variant={"outline"}
+                            className="h-9 cursor-pointer"
+                            onClick={onClearFilter}
                         >
                             <GoXCircle />
                             Clear
                         </Button>
                     )}
-                </div> */}
+                </div>
             </div>
         </>
     )

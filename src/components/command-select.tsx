@@ -70,7 +70,7 @@ const CommandSelect = ({
                 onOpenChange={setOpen}
                 className="py-4 px-4"
             >
-                <CommandInput placeholder="Search Agent..." onValueChange={onSearch} />
+                <CommandInput placeholder="Search ..." onValueChange={onSearch} />
 
                 <CommandList className="mt-3">
                     {isLoading ? (
