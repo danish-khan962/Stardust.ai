@@ -7,16 +7,17 @@ import Image from 'next/image'
 interface EmptyStateProps {
     title: string,
     description: string,
+    image?: string,
 }
 
 const EmptyState = ({
-    title, description
+    title, description, image="/images/empty-state.png"
 }: EmptyStateProps) => {
     return (
-        <div className='mt-25 py-4 px-8 w-full flex flex-col justify-center items-center gap-8'>
+        <div className='my-5 py-4 px-8 w-full flex flex-col justify-center items-center gap-8'>
 
                 <Image
-                    src={"/images/empty-state.png"}
+                    src={image}
                     alt='empty state'
                     height={300}
                     width={300}
