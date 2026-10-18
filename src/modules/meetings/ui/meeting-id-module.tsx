@@ -8,6 +8,10 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useConfirm } from '@/modules/agents/hooks/use-confirm';
 import UpdateMeetingsDialog from './update-meeting-dialog';
+import UpcomingState from './upcoming-state';
+import ActiveState from './active-state';
+import ProcessingState from './processing-state';
+import CancelledState from './cancelled-state';
 
 interface Props {
     meetingId: string;
@@ -48,11 +52,18 @@ const MeetingIdModule = ({
 
     const handleRemoveMeeting = async () => {
         const ok = await confirmRemove();
-        
-        if(!ok) return;
 
-        await removeMeeting.mutateAsync({id: meetingId})
+        if (!ok) return;
+
+        await removeMeeting.mutateAsync({ id: meetingId })
     }
+
+
+    const isCompleted = data.status === "completed";
+    const isActive = data.status === "active";
+    const isProcessing = data.status === "processing";
+    const isCancelled = data.status === "cancelled";
+    const isUpcoming = data.status === "upcoming";
 
     return (
         <>
@@ -69,7 +80,38 @@ const MeetingIdModule = ({
                     onEdit={() => setUpdateMeetingDialogOpen(true)}
                     onRemove={handleRemoveMeeting}
                 />
-                {JSON.stringify(data, null, 2)}
+                {
+                    isCompleted && 
+                    <div>
+                        Completed
+                    </div>
+                }
+                {
+                    isUpcoming && 
+                    (
+                        <UpcomingState
+                            meetingId={meetingId}
+                            onCancellingMeeting={() => {}}
+                            isCancelling={false}
+                        />
+                    )
+                }
+                {
+                    isActive && 
+                    (
+                        <ActiveState
+                            meetingId={meetingId}
+                        />
+                    )
+                }
+                {
+                    isProcessing && 
+                    <ProcessingState />
+                }
+                {
+                    isCancelled && 
+                    <CancelledState />
+                }
             </div>
         </>
     )
