@@ -57,7 +57,7 @@ const options = [
         children: (
             <div className="flex items-center gap-2 capitalize">
                 <CircleXIcon />
-                {MeetingStatus.Processing}
+                {MeetingStatus.Cancelled}
             </div>
         )
     },

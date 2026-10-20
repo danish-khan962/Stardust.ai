@@ -7,6 +7,7 @@ import {
     VideoIcon, BanIcon
 } from "lucide-react"
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface Props {
     meetingId: string;
@@ -17,6 +18,9 @@ interface Props {
 const UpcomingState = ({
     meetingId, onCancellingMeeting, isCancelling
 }: Props) => {
+
+    const router = useRouter();
+
     return (
         <div className='bg-white flex flex-col justify-center items-center px-4 py-5 gap-4 rounded-lg border'>
             <EmptyState
@@ -28,7 +32,7 @@ const UpcomingState = ({
             <div className='max-w-xs w-full flex flex-col md:flex-row justify-center items-center gap-x-4'>
                 <Button
                     variant={"secondary"}
-                    className="w-full cursor-pointer border-neutral-200 h-10 md:h-13 flex flex-row items-center gap-x-2"
+                    className="w-full md:flex-auto cursor-pointer border-neutral-200 h-10 md:h-13 flex flex-row items-center gap-x-2"
                     onClick={onCancellingMeeting}
                     disabled={isCancelling}
                 >
@@ -36,8 +40,9 @@ const UpcomingState = ({
                     Cancel meeting
                 </Button>
                 <Button
-                    className="text-white w-full"
+                    className="text-white w-full md:flex-auto"
                     disabled={isCancelling}
+                    onClick={() => router.push(`/call/${meetingId}`)}
                 >
                     <Link
                         className='flex flex-row items-center gap-x-2'
